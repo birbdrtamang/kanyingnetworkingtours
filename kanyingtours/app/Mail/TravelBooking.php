@@ -20,7 +20,7 @@ class TravelBooking extends Mailable
      *
      * @return void
      */
-    public function __construct(array $formData)
+    public function __construct($formData)
     {
         $this->formData= $formData;
     }
@@ -30,14 +30,11 @@ class TravelBooking extends Mailable
      *
      * @return $this
      */
-    public function build(){
-        if(isset($this->formData['email'])) {
-            return $this->from($this->formData['email'])
-                        ->view('bookingtravel')
-                        ->subject('Travel Booking Received');
-        }
-        // return $this->from($this->formData['email'])
-        //             ->view('bookingtravel')
-        //             ->subject('Travel Booking Received');
+  
+    public function build()
+    {
+        return $this->view('bookingtravel')
+                    ->with('data', $this->formData)
+                    ->subject('Booking Received');
     }
 }
