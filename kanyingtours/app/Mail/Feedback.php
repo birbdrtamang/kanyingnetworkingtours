@@ -5,8 +5,6 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class Feedback extends Mailable
@@ -18,11 +16,12 @@ class Feedback extends Mailable
     /**
      * Create a new message instance.
      *
+     * @param array $formData
      * @return void
      */
-    public function __construct(array $formData)
+    public function __construct($formData)
     {
-        $this->formData= $formData;
+        $this->formData = $formData;
     }
 
     /**
@@ -32,8 +31,8 @@ class Feedback extends Mailable
      */
     public function build()
     {
-        return $this->from($this->formData['email'])
-                    ->view('feedback')
+        return $this->view('feedback')
+                    ->with('data', $this->formData)
                     ->subject('Feedback Received');
     }
 }
